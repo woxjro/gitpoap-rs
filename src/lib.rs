@@ -5,7 +5,14 @@ pub mod v1 {
     use super::response::*;
     use super::status::*;
     use super::ENDPOINT;
-    use reqwest::Error;
+    use cfg_if::cfg_if;
+    use std::error::Error;
+
+    cfg_if! {
+        if #[cfg(target_arch = "wasm32")] {
+            use gloo_net::http::Request;
+        }
+    }
 
     pub fn get_base_url() -> String {
         format!("{}/v1", ENDPOINT)
@@ -25,11 +32,20 @@ pub mod v1 {
     /// let poap_response = response.unwrap();
     /// assert!(poap_response.is_gitpoap);
     /// ```
-    pub async fn is_gitpoap(poap_token_id: &str) -> Result<PoapResponse, Error> {
+    pub async fn is_gitpoap(poap_token_id: &str) -> Result<PoapResponse, Box<dyn Error>> {
         let url = format!("{}/poap/{poap_token_id}/is-gitpoap", get_base_url());
-        let response = reqwest::get(&url).await?;
-        let res = response.json::<PoapResponse>().await?;
-        Ok(res)
+
+        cfg_if! {
+            if #[cfg(target_arch = "wasm32")] {
+                let response = Request::get(&url).send().await?;
+                let res = response.json::<PoapResponse>().await?;
+                Ok(res)
+            } else {
+                let response = reqwest::get(&url).await?;
+                let res = response.json::<PoapResponse>().await?;
+                Ok(res)
+            }
+        }
     }
 
     /// GET /v1/poap/gitpoap-ids
@@ -43,10 +59,20 @@ pub mod v1 {
     /// let poap_ids_response = response.unwrap();
     /// assert!(!poap_ids_response.poap_token_ids.is_empty());
     /// ```
-    pub async fn get_gitpoap_ids() -> Result<PoapIdsResponse, Error> {
+    pub async fn get_gitpoap_ids() -> Result<PoapIdsResponse, Box<dyn Error>> {
         let url = format!("{}/poap/gitpoap-ids", get_base_url());
-        let response = reqwest::get(&url).await?.json::<PoapIdsResponse>().await?;
-        Ok(response)
+
+        cfg_if! {
+            if #[cfg(target_arch = "wasm32")] {
+                let response = Request::get(&url).send().await?;
+                let res = response.json::<PoapIdsResponse>().await?;
+                Ok(res)
+            } else {
+                let response = reqwest::get(&url).await?;
+                let res = response.json::<PoapIdsResponse>().await?;
+                Ok(res)
+            }
+        }
     }
 
     /// GET /v1/poap-event/:poapEventId/is-gitpoap
@@ -61,10 +87,20 @@ pub mod v1 {
     /// let event_response = response.unwrap();
     /// assert!(event_response.is_gitpoap);
     /// ```
-    pub async fn is_gitpoap_event(poap_event_id: &str) -> Result<EventResponse, Error> {
+    pub async fn is_gitpoap_event(poap_event_id: &str) -> Result<EventResponse, Box<dyn Error>> {
         let url = format!("{}/poap-event/{poap_event_id}/is-gitpoap", get_base_url());
-        let response = reqwest::get(&url).await?.json::<EventResponse>().await?;
-        Ok(response)
+
+        cfg_if! {
+            if #[cfg(target_arch = "wasm32")] {
+                let response = Request::get(&url).send().await?;
+                let res = response.json::<EventResponse>().await?;
+                Ok(res)
+            } else {
+                let response = reqwest::get(&url).await?;
+                let res = response.json::<EventResponse>().await?;
+                Ok(res)
+            }
+        }
     }
 
     /// GET /v1/github/user/:githubHandle/gitpoaps?status=<status>
@@ -83,14 +119,24 @@ pub mod v1 {
     pub async fn get_gitpoaps_for_github_user(
         github_handle: &str,
         status: Option<Status>,
-    ) -> Result<GitpoapsResponse, Error> {
+    ) -> Result<GitpoapsResponse, Box<dyn Error>> {
         let url = format!(
             "{}/github/user/{github_handle}/gitpoaps?status={status}",
             get_base_url(),
             status = status.unwrap_or(Status::Claimed).to_string()
         );
-        let response = reqwest::get(&url).await?.json::<GitpoapsResponse>().await?;
-        Ok(response)
+
+        cfg_if! {
+            if #[cfg(target_arch = "wasm32")] {
+                let response = Request::get(&url).send().await?;
+                let res = response.json::<GitpoapsResponse>().await?;
+                Ok(res)
+            } else {
+                let response = reqwest::get(&url).await?;
+                let res = response.json::<GitpoapsResponse>().await?;
+                Ok(res)
+            }
+        }
     }
 
     #[cfg(test)]
