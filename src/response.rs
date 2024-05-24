@@ -1,6 +1,6 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct PoapResponse {
     #[serde(rename = "isGitPOAP")]
     pub is_gitpoap: bool,
@@ -8,13 +8,13 @@ pub struct PoapResponse {
     pub gitpoap_id: Option<i32>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct PoapIdsResponse {
     #[serde(rename = "poapTokenIds")]
     pub poap_token_ids: Vec<String>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct EventResponse {
     #[serde(rename = "isGitPOAP")]
     pub is_gitpoap: bool,
@@ -22,13 +22,13 @@ pub struct EventResponse {
     pub gitpoap_id: Option<i32>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct PoapEventFancyIdsResponse {
     #[serde(rename = "poapEventFancyIds")]
     pub poap_event_fancy_ids: Vec<String>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct GitPoapEvent {
     #[serde(rename = "gitPoapEventId")]
     pub git_poap_event_id: i32,
@@ -46,17 +46,17 @@ pub struct GitPoapEvent {
     pub minted_count: i32,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct AddressesResponse {
     pub addresses: Vec<String>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct ErrorResponse {
     pub message: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct GitpoapResponse {
     #[serde(rename = "gitPoapId")]
     pub git_poap_id: i32,
@@ -80,5 +80,5 @@ pub struct GitpoapResponse {
     pub minted_at: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct GitpoapsResponse(pub Vec<GitpoapResponse>);
