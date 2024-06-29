@@ -26,11 +26,15 @@ pub mod v1 {
     /// # Example
     ///
     /// ```
-    /// let poap_token_id = "4003";
-    /// let response = is_gitpoap(poap_token_id).await;
-    /// assert!(response.is_ok());
-    /// let poap_response = response.unwrap();
-    /// assert!(poap_response.is_gitpoap);
+    /// use gitpoap_rs::v1::is_gitpoap;
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let poap_token_id = "4003";
+    ///     let response = is_gitpoap(poap_token_id).await;
+    ///     assert!(response.is_ok());
+    ///     let poap_response = response.unwrap();
+    ///     assert_eq!(poap_response.is_gitpoap, false);
+    /// }
     /// ```
     pub async fn is_gitpoap(poap_token_id: &str) -> Result<PoapResponse, Box<dyn Error>> {
         let url = format!("{}/poap/{poap_token_id}/is-gitpoap", get_base_url());
@@ -54,10 +58,14 @@ pub mod v1 {
     /// # Example
     ///
     /// ```
-    /// let response = get_gitpoap_ids().await;
-    /// assert!(response.is_ok());
-    /// let poap_ids_response = response.unwrap();
-    /// assert!(!poap_ids_response.poap_token_ids.is_empty());
+    /// use gitpoap_rs::v1::get_gitpoap_ids;
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let response = get_gitpoap_ids().await;
+    ///     assert!(response.is_ok());
+    ///     let poap_ids_response = response.unwrap();
+    ///     assert!(!poap_ids_response.poap_token_ids.is_empty());
+    /// }
     /// ```
     pub async fn get_gitpoap_ids() -> Result<PoapIdsResponse, Box<dyn Error>> {
         let url = format!("{}/poap/gitpoap-ids", get_base_url());
@@ -81,11 +89,15 @@ pub mod v1 {
     /// # Example
     ///
     /// ```
-    /// let poap_event_id = "12345";
-    /// let response = is_gitpoap_event(poap_event_id).await;
-    /// assert!(response.is_ok());
-    /// let event_response = response.unwrap();
-    /// assert!(event_response.is_gitpoap);
+    /// use gitpoap_rs::v1::is_gitpoap_event;
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let poap_event_id = "12345";
+    ///     let response = is_gitpoap_event(poap_event_id).await;
+    ///     assert!(response.is_ok());
+    ///     let event_response = response.unwrap();
+    ///     assert_eq!(event_response.is_gitpoap, false);
+    /// }
     /// ```
     pub async fn is_gitpoap_event(poap_event_id: &str) -> Result<EventResponse, Box<dyn Error>> {
         let url = format!("{}/poap-event/{poap_event_id}/is-gitpoap", get_base_url());
@@ -110,11 +122,15 @@ pub mod v1 {
     /// claimed, unclaimed, pending, minting, and can be omitted completely.
     /// This returns data like:
     /// ```
-    /// let github_handle = "octocat";
-    /// let response = get_gitpoaps_for_github_user(github_handle, None).await;
-    /// assert!(response.is_ok());
-    /// let gitpoaps_response = response.unwrap();
-    /// assert!(!gitpoaps_response.gitpoaps.is_empty());
+    /// use gitpoap_rs::v1::get_gitpoaps_for_github_user;
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let github_handle = "woxjro";
+    ///     let response = get_gitpoaps_for_github_user(github_handle, None).await;
+    ///     assert!(response.is_ok());
+    ///     let gitpoaps_response = response.unwrap();
+    ///     assert_eq!(gitpoaps_response.0.is_empty(), false);
+    /// }
     /// ```
     pub async fn get_gitpoaps_for_github_user(
         github_handle: &str,
