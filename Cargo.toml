@@ -2,6 +2,13 @@
 name = "gitpoap-rs"
 version = "0.1.0"
 edition = "2021"
+authors = ["woxjro"]
+description = "A gitpoap client written in Rust"
+keywords = ["gitpoap", "ethereum", "wasm", "web3", "rust"]
+license = "MIT"
+repository = "https://github.com/woxjro/gitpoap-rs"
+readme = "README.md"
+homepage = "https://github.com/woxjro/gitpoap-rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
